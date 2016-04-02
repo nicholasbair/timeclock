@@ -7,16 +7,17 @@
   // forEach item, add row w/ time and date
 
 require('dotenv').config();
+var h = require('./helpers');
 
 var firebase = new Firebase(process.env.FIREBASE_URL);
 
 var startTime = null;
 var endTime = null;
-var resetBtn = getId('resetBtn');
-var timeOutput = getId('timeOutput');
-var dataRow = getId('dataRow');
-var toggleBtn = getId('toggleBtn');
-var timePost = getId('timePost');
+var resetBtn = h.getId('resetBtn');
+var timeOutput = h.getId('timeOutput');
+var dataRow = h.getId('dataRow');
+var toggleBtn = h.getId('toggleBtn');
+var timePost = h.getId('timePost');
 var startClock;
 
 toggleBtn.addEventListener('click', function() {
@@ -38,18 +39,6 @@ resetBtn.addEventListener('click', function() {
   timeOutput.innerHTML = '00:00:00';
 });
 
-function getId(id) {
-  return document.getElementById(id);
-}
-
-function appendZero(n) {
-  n = n.toString();
-  if (n.length != 2) {
-    n = '0' + n;
-  }
-  return n;
-}
-
 function getDate() {
   var today = new Date();
   var dd = today.getDate();
@@ -70,9 +59,9 @@ function getDate() {
 
 function getElapsedTime(start, end) {
   var t = end - start;
-  var seconds = appendZero(Math.floor((t/1000) % 60));
-  var minutes = appendZero(Math.floor((t/1000/60) % 60));
-  var hours = appendZero(Math.floor((t/(1000*60*60)) % 24));
+  var seconds = h.appendZero(Math.floor((t/1000) % 60));
+  var minutes = h.appendZero(Math.floor((t/1000/60) % 60));
+  var hours = h.appendZero(Math.floor((t/(1000*60*60)) % 24));
   var calcTime = hours.toString();
 
   firebase.push({
@@ -85,9 +74,9 @@ function getElapsedTime(start, end) {
 function newTimer() {
   var timeNow = Date.now();
   var t = timeNow - startTime;
-  var seconds = appendZero(Math.floor((t/1000) % 60));
-  var minutes = appendZero(Math.floor((t/1000/60) % 60));
-  var hours = appendZero(Math.floor((t/(1000*60*60)) % 24));
-  
+  var seconds = h.appendZero(Math.floor((t/1000) % 60));
+  var minutes = h.appendZero(Math.floor((t/1000/60) % 60));
+  var hours = h.appendZero(Math.floor((t/(1000*60*60)) % 24));
+
   timeOutput.innerHTML = hours + ':' + minutes + ':' + seconds;
 }
