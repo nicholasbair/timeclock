@@ -1,23 +1,18 @@
 'use strict';
 
 // TODO:
-// on stop push time to table
-  // create times object
-  // add time on stop
-  // forEach item, add row w/ time and date
+  // Add table with time data from Firebase
 
 require('dotenv').config();
 var h = require('./helpers');
-
 var firebase = new Firebase(process.env.FIREBASE_URL);
 
 var startTime = null;
 var endTime = null;
 var resetBtn = h.getId('resetBtn');
 var timeOutput = h.getId('timeOutput');
-var dataRow = h.getId('dataRow');
 var toggleBtn = h.getId('toggleBtn');
-var timePost = h.getId('timePost');
+var timeSheet = h.getId('timeSheet');
 var startClock;
 
 toggleBtn.addEventListener('click', function() {
@@ -28,7 +23,6 @@ toggleBtn.addEventListener('click', function() {
     endTime = Date.now();
     clearInterval(startClock);
     getElapsedTime(startTime, endTime);
-
   }
 });
 
@@ -80,3 +74,19 @@ function newTimer() {
 
   timeOutput.innerHTML = hours + ':' + minutes + ':' + seconds;
 }
+
+// TODO: not working, date === undefined
+function writeToPage(data) {
+  data = data.val();
+  for (var prop in data) {
+    var date = prop.date;
+    timeSheet.innerHTML = '<div>' + date + '</div>';
+  }
+}
+
+firebase.on('value', function(data) {
+  console.log(data.val());
+  writeToPage(data);
+}, function(err) {
+  console.log(err.code);
+});
