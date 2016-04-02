@@ -6,6 +6,10 @@
   // add time on stop
   // forEach item, add row w/ time and date
 
+require('dotenv').config();
+
+var firebase = new Firebase(process.env.FIREBASE_URL);
+
 var startTime = null;
 var endTime = null;
 var resetBtn = getId('resetBtn');
@@ -14,7 +18,6 @@ var dataRow = getId('dataRow');
 var toggleBtn = getId('toggleBtn');
 var timePost = getId('timePost');
 var startClock;
-var timeSheet = [];
 
 toggleBtn.addEventListener('click', function() {
   if (startTime === null && endTime === null) {
@@ -70,18 +73,13 @@ function getElapsedTime(start, end) {
   var seconds = appendZero(Math.floor((t/1000) % 60));
   var minutes = appendZero(Math.floor((t/1000/60) % 60));
   var hours = appendZero(Math.floor((t/(1000*60*60)) % 24));
-  // var calcTime = hours.toString();
-  console.log('Hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  var calcTime = '1.56';
+  var calcTime = hours.toString();
 
-  timeSheet.push([getDate(), calcTime]);
-  timeOutput.innerHTML = hours + ':' + minutes + ':' + seconds;
-  console.log(timeSheet);
-  timeSheet.forEach(function(item) {
-    // not adding after 1
-    timePost.innerHTML = 'Date: ' + item[0] + ' ' + 'Time: ' + item[1];
+  firebase.push({
+    date: getDate(),
+    time: calcTime
   });
+  timeOutput.innerHTML = hours + ':' + minutes + ':' + seconds;
 }
 
 function newTimer() {
@@ -90,5 +88,6 @@ function newTimer() {
   var seconds = appendZero(Math.floor((t/1000) % 60));
   var minutes = appendZero(Math.floor((t/1000/60) % 60));
   var hours = appendZero(Math.floor((t/(1000*60*60)) % 24));
+  
   timeOutput.innerHTML = hours + ':' + minutes + ':' + seconds;
 }
