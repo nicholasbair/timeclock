@@ -75,17 +75,16 @@ function newTimer() {
   timeOutput.innerHTML = hours + ':' + minutes + ':' + seconds;
 }
 
-// TODO: not working, date === undefined
 function writeToPage(data) {
-  data = data.val();
-  for (var prop in data) {
-    var date = prop.date;
-    timeSheet.innerHTML = '<div>' + date + '</div>';
-  }
+  data.forEach(function(child) {
+    var childData = child.val();
+    var date = childData.date;
+    var time = childData.time;
+    timeSheet.innerHTML += '<div>'+ 'Date: ' + date + ' ' + 'Time: ' + time + '</div>';
+  });
 }
 
 firebase.on('value', function(data) {
-  console.log(data.val());
   writeToPage(data);
 }, function(err) {
   console.log(err.code);
