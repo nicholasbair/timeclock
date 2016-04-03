@@ -3,26 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>Clockster</title>
-    <style>
-      #timeOutput {
-        font-size: 2em;
-      }
-    </style>
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
   </head>
   <body>
-    <h1>Clockster - time clock</h1>
-    <h3>Click the button to start/stop time</h3>
-    <div id="timeOutput">
-      00:00:00
-    </div>
-    <button id="toggleBtn">Start/Stop</button>
-    <button id="resetBtn">Reset</button>
-    <br>
-    <br>
-    <br>
-    <div id="timeSheet"></div>
 
-    <script>require('./app.js')</script>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
+    <script src="http://localhost:8080/built/bundle.js"></script>
   </body>
 </html>
