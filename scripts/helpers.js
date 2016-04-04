@@ -1,4 +1,4 @@
-var helpers = {};
+let helpers = {};
 
 helpers.getId = function(id) {
   return document.getElementById(id);
